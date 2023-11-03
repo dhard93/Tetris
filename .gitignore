@@ -1,0 +1,29 @@
+# Maven target directory
+/target/
+
+# IDE-specific directories and files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs and binary files
+*.log
+*.class
+
+# OS-specific files and directories
+.DS_Store
+Thumbs.db
+
+# Eclipse-specific files and directories
+.settings/
+.classpath
+.project
+
+# NetBeans-specific files and directories
+nb-configuration.xml
+nbactions.xml
+
+# Gradle-specific files
+.gradle/
+build/

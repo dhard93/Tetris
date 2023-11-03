@@ -1,0 +1,27 @@
+package com.example.tetris;
+
+/**
+ * This class represents the data of a player in the top 3 and is used to access a top player's name and score.
+ */
+
+public class PlayerData
+{
+    private String name;
+    private int score;
+
+    public PlayerData(String playerName, int highScore)
+    {
+        name = playerName;
+        score = highScore;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+}
