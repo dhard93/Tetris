@@ -90,10 +90,10 @@ public class Database
      * Replace the name and score of an existing database entry using 'place' to determine
      * which entry to edit.
      * @param name The new name of the database entry.
-     * @param playerScore The new score of the database entry.
      * @param place What place the current player came in. Used to determine which entry to edit.
+     * @param topPlayers PlayerData for each of the top 3 players in the database.
      */
-    public void editEntry(String name, int playerScore, int place)
+    public void editEntries(String name, int place, PlayerData[] topPlayers)
     {
         try
         {
@@ -107,17 +107,23 @@ public class Database
             e.printStackTrace();
         }
 
+        topPlayers[place - 1].setName(name);
+
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath))
         {
             // Update the database to reflect changes to player data.
             String updateSQL = "UPDATE top_players SET name = ?, high_score = ? WHERE id = ?";
 
-            try (PreparedStatement prepStatement = connection.prepareStatement(updateSQL))
+            for (int i = place; i <= topPlayers.length; i++)
             {
-                prepStatement.setString(1, name);
-                prepStatement.setInt(2, playerScore);
-                prepStatement.setInt(3, place);
-                prepStatement.executeUpdate();
+                try (PreparedStatement prepStatement = connection.prepareStatement(updateSQL))
+                {
+                    System.out.println("DB: " + topPlayers[i - 1].getName() + ", " + topPlayers[i - 1].getScore());
+                    prepStatement.setString(1, topPlayers[i - 1].getName());
+                    prepStatement.setInt(2, topPlayers[i - 1].getScore());
+                    prepStatement.setInt(3, i);
+                    prepStatement.executeUpdate();
+                }
             }
         }
         catch (SQLException e)

@@ -174,8 +174,8 @@ public class TetrisController
                                     {
                                         game.setInBetweenGamesStatus(false);
                                         game.playButtonSound();
-                                        game.getDatabase().editEntry(menuData.getPlayerName(), game.getScore(), game.getPlace());
-                                        game.loadTopPlayersData();
+                                        game.getDatabase().editEntries(menuData.getPlayerName(), game.getPlace(), game.getTopPlayersData());
+                                        menuData.setTopScoresData(game.getTopPlayersData());
                                         renderer.openMenu(4, 0, menuData);
                                         game.resetGame();
                                     }

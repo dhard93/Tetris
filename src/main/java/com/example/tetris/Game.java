@@ -553,24 +553,42 @@ public class Game
     private int checkForNewHighScore()
     {
         int place = 0;
-        PlayerData[] topPlayers = database.retrieveEntries();
-        int[] scores = new int[topPlayers.length + 1];
+        topPlayersData = database.retrieveEntries();
+        String[] names = new String[topPlayersData.length + 1];
+        int[] scores = new int[topPlayersData.length + 1];
 
-        // add the top scores and 'score' to 'scores'.
-        scores[0] = topPlayers[0].getScore();
-        scores[1] = topPlayers[1].getScore();
-        scores[2] = topPlayers[2].getScore();
+        // Store top names and scores.
+        names[0] = topPlayersData[0].getName();
+        names[1] = topPlayersData[1].getName();
+        names[2] = topPlayersData[2].getName();
+        names[3] = "???";
+        scores[0] = topPlayersData[0].getScore();
+        scores[1] = topPlayersData[1].getScore();
+        scores[2] = topPlayersData[2].getScore();
         scores[3] = score;
 
         // sort 'scores' in descending order.
-        for (int i = 0; i < scores.length; i++) {
-            for (int j = i + 1; j < scores.length; j++) {
-                if (scores[i] < scores[j]) {
-                    int temp = scores[i];
+        for (int i = 0; i < scores.length; i++)
+        {
+            for (int j = i + 1; j < scores.length; j++)
+            {
+                if (scores[i] < scores[j])
+                {
+                    String tempName = names[i];
+                    int tempScore = scores[i];
+                    names[i] = names[j];
+                    names[j] = tempName;
                     scores[i] = scores[j];
-                    scores[j] = temp;
+                    scores[j] = tempScore;
                 }
             }
+        }
+
+        for (int i = 0; i < topPlayersData.length; i++)
+        {
+            topPlayersData[i].setName(names[i]);
+            topPlayersData[i].setScore(scores[i]);
+            System.out.println(topPlayersData[i].getName()+", "+topPlayersData[i].getScore());
         }
 
         // return number signifying what place, if any, in the top 3 'score' is in:
@@ -1270,12 +1288,21 @@ public class Game
         return gravity;
     }
 
+    public PlayerData[] getTopPlayersData()
+    {
+        return topPlayersData;
+    }
+
     /**
      * Load top player data from the database.
      */
     public void loadTopPlayersData()
     {
         topPlayersData = database.retrieveEntries();
+
+        for (PlayerData entry : topPlayersData)
+            System.out.println("N: "+entry.getName()+", "+"S: "+entry.getScore());
+
         menuData.setTopScoresData(topPlayersData);
     }
 

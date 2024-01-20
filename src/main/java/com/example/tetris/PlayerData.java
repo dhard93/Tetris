@@ -15,6 +15,16 @@ public class PlayerData
         score = highScore;
     }
 
+    public void setName(String newName)
+    {
+        name = newName;
+    }
+
+    public void setScore(int newScore)
+    {
+        score = newScore;
+    }
+
     public String getName()
     {
         return name;
